@@ -1,21 +1,49 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowUpRight, Search, Play, Check, Copy } from "lucide-react";
+import { ArrowUpRight, Check, Copy, Download } from "lucide-react";
 import * as React from "react";
+import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
 
 export function Hero() {
   const [copied, setCopied] = React.useState(false);
-  const [isRunning, setIsRunning] = React.useState(false);
-  const [runComplete, setRunComplete] = React.useState(false);
 
-  const handleRun = () => {
-    setIsRunning(true);
-    setRunComplete(false);
-    setTimeout(() => {
-      setIsRunning(false);
-      setRunComplete(true);
-    }, 1200);
+  const skillFilename = "web_search_executor.md";
+  const skillMarkdown = `# Web Search Executor Prompt
+
+## Role & Mission
+You are a research crawler agent. Your purpose is to formulate queries, dispatch searches, and return relevant articles.
+
+## Instructions
+1. Inspect query parameters.
+2. Filter target URLs (HTTPS only).
+3. Return abbreviated markdown result logs.`;
+
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(skillMarkdown);
+      setCopied(true);
+      toast.success(`Copied ${skillFilename} to clipboard!`);
+      setTimeout(() => setCopied(false), 2000);
+    } catch (err) {
+      toast.error("Failed to copy prompt");
+    }
+  };
+
+  const handleDownload = () => {
+    try {
+      const blob = new Blob([skillMarkdown], { type: "text/markdown" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = skillFilename;
+      a.click();
+      URL.revokeObjectURL(url);
+      toast.success(`Downloaded ${skillFilename} successfully!`);
+    } catch (err) {
+      toast.error("Failed to download prompt file");
+    }
   };
 
   return (
@@ -32,165 +60,99 @@ export function Hero() {
                 <span className="absolute inline-flex h-full w-full animate-ping bg-emerald-500 opacity-75 rounded-full" />
                 <span className="relative inline-flex size-2 bg-emerald-500 rounded-full" />
               </span>
-              <p>AI Agent Capabilities Registry</p>
+              <p>AI Agent Skill File Registry</p>
             </div>
 
             {/* Display-XL H1 Headline */}
             <h1 className="font-sans text-5xl sm:text-6xl md:text-7xl font-semibold tracking-cal-sans-xl leading-[1.05] text-ink mb-6 lowercase">
               skill.base<span className="text-primary font-black ml-0.5">●</span>
               <span className="block mt-4 text-foreground font-sans text-4xl sm:text-5xl lg:text-6xl tracking-cal-sans-lg leading-[1.1] normal-case font-semibold">
-                Showcase Your AI Agent Skills
+                Download & Deploy AI Agent Skill Files
               </span>
             </h1>
 
             {/* Description Paragraph */}
             <p className="text-base sm:text-lg text-body max-w-2xl mb-8 leading-relaxed font-sans font-normal">
-              The curated launchpad for modern creators to index builds, log
-              technical challenges, and capture code peer feedback in a sharp,
-              professional registry. Show the world what your agents can do.
+              Curated prompt instructions, schema instructions, and custom logic templates for developer agents. Copy or download markdown skill files instantly to configure agent capabilities without coding complex connectors.
             </p>
 
             {/* Buttons Row */}
             <div className="flex flex-wrap items-center gap-3">
               <Link href="/submit">
-                <button className="h-10 inline-flex items-center justify-center gap-1.5 rounded-md bg-primary px-5 text-sm font-semibold text-primary-foreground hover:bg-primary-active transition-all duration-200 active:translate-y-px cursor-pointer">
-                  Share Your Project
+                <Button className="h-10 gap-1.5 font-semibold text-primary-foreground bg-primary hover:bg-primary-active transition-all duration-200 cursor-pointer">
+                  Publish a Skill File
                   <ArrowUpRight className="size-4" />
-                </button>
+                </Button>
               </Link>
               <Link href="/explore">
-                <button className="h-10 inline-flex items-center justify-center gap-1.5 rounded-md border border-hairline bg-canvas px-5 text-sm font-semibold text-ink hover:bg-surface-soft transition-all duration-200 active:translate-y-px cursor-pointer">
-                  Explore Showcase
-                </button>
+                <Button variant="outline" className="h-10 gap-1.5 font-semibold text-ink border border-hairline hover:bg-surface-soft bg-canvas transition-all duration-200 cursor-pointer">
+                  Explore Skill Files
+                </Button>
               </Link>
             </div>
           </div>
 
-          {/* Right Column (5 cols): App Mockup Card */}
+          {/* Right Column (5 cols): Prompt File Mockup Card */}
           <div className="lg:col-span-5 w-full flex justify-center lg:justify-end">
-            <div className="w-full max-w-[440px] rounded-xl border border-hairline bg-canvas p-6 shadow-sm flex flex-col gap-5 select-none relative overflow-hidden transition-all duration-300">
+            <div className="w-full max-w-[440px] rounded-xl border border-hairline bg-canvas p-6 shadow-sm flex flex-col gap-5 select-none relative overflow-hidden transition-all duration-300 hover:shadow-md">
               
               {/* Card Product Chrome Header */}
               <div className="flex items-center justify-between border-b border-hairline pb-4">
                 <div className="flex items-center gap-2.5">
-                  <div className="flex size-7 items-center justify-center rounded-md bg-primary text-white font-mono text-xs">
-                    WS
+                  <div className="flex size-7 items-center justify-center rounded-md bg-primary text-white font-mono text-xs font-bold">
+                    MD
                   </div>
                   <div>
-                    <h3 className="text-sm font-semibold text-ink">web-search-agent</h3>
-                    <p className="text-[11px] text-muted-soft">v1.2.0 • Active</p>
+                    <h3 className="text-sm font-semibold text-ink">{skillFilename}</h3>
+                    <p className="text-[11px] text-muted-soft">v1.2.0 • 1.1 KB</p>
                   </div>
                 </div>
                 <span className="inline-flex items-center gap-1 rounded-full bg-emerald-500/10 px-2 py-0.5 text-[10px] font-semibold text-emerald-600 dark:text-emerald-400">
-                  MCP Compatible
+                  Approved Prompt
                 </span>
               </div>
 
-              {/* Mock Input Form Panel */}
-              <div className="space-y-3.5">
-                <div>
-                  <label className="block text-xs font-semibold text-ink mb-1.5">
-                    Query Parameter
-                  </label>
-                  <div className="relative">
-                    <input
-                      type="text"
-                      readOnly
-                      value="Latest AI Agent frameworks 2026"
-                      className="w-full rounded-md border border-hairline bg-surface-soft px-3 py-1.5 text-xs text-ink outline-none pointer-events-none"
-                    />
-                    <Search className="absolute right-3 top-2 size-3.5 text-muted-soft" />
-                  </div>
+              {/* Code/Markdown Content Block */}
+              <div className="flex flex-col gap-2">
+                <div className="flex items-center justify-between">
+                  <span className="text-[10px] font-semibold uppercase tracking-wider text-muted-soft">
+                    File Contents Preview
+                  </span>
+                  <span className="text-[9px] font-mono text-muted-soft">markdown</span>
                 </div>
-
-                <div className="grid grid-cols-2 gap-3">
-                  <div>
-                    <label className="block text-xs font-semibold text-ink mb-1.5">
-                      Max Results
-                    </label>
-                    <input
-                      type="text"
-                      readOnly
-                      value="5"
-                      className="w-full rounded-md border border-hairline bg-surface-soft px-3 py-1.5 text-xs text-ink outline-none pointer-events-none"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-xs font-semibold text-ink mb-1.5">
-                      Format
-                    </label>
-                    <input
-                      type="text"
-                      readOnly
-                      value="Markdown"
-                      className="w-full rounded-md border border-hairline bg-surface-soft px-3 py-1.5 text-xs text-ink outline-none pointer-events-none"
-                    />
-                  </div>
+                <div className="min-h-48 rounded-md bg-surface-soft p-3.5 text-[11px] font-mono text-ink border border-hairline leading-normal overflow-x-auto text-left select-text">
+                  <pre className="whitespace-pre-wrap">
+                    <code>{skillMarkdown}</code>
+                  </pre>
                 </div>
               </div>
 
-              {/* Action Button */}
-              <button
-                onClick={handleRun}
-                disabled={isRunning}
-                className="w-full h-9 inline-flex items-center justify-center gap-1.5 rounded-md bg-primary text-xs font-semibold text-primary-foreground hover:bg-primary-active transition-colors cursor-pointer"
-              >
-                {isRunning ? (
-                  <span className="flex items-center gap-1.5">
-                    <span className="size-3 border-2 border-primary-foreground border-t-transparent rounded-full animate-spin" />
-                    Executing...
-                  </span>
-                ) : (
-                  <>
-                    <Play className="size-3 fill-current" />
-                    Run Agent Skill
-                  </>
-                )}
-              </button>
-
-              {/* Console Output Block */}
-              <div className="flex flex-col gap-1.5">
-                <div className="flex items-center justify-between">
-                  <span className="text-[10px] font-semibold uppercase tracking-wider text-muted-soft">
-                    Response Console
-                  </span>
-                  <button
-                    onClick={() => {
-                      setCopied(true);
-                      setTimeout(() => setCopied(false), 2000);
-                    }}
-                    className="text-muted-soft hover:text-ink transition-colors cursor-pointer p-0.5"
-                  >
-                    {copied ? (
-                      <Check className="size-3 text-emerald-500" />
-                    ) : (
-                      <Copy className="size-3" />
-                    )}
-                  </button>
-                </div>
-                <div className="min-h-section rounded-md bg-surface-dark p-3 text-[11px] font-mono text-on-dark-soft border border-hairline/10 leading-normal flex flex-col justify-between overflow-x-auto">
-                  {isRunning ? (
-                    <span className="text-white animate-pulse">Running query on web endpoints...</span>
-                  ) : runComplete ? (
-                    <code className="text-emerald-500 block whitespace-pre">
-                      {`{
-  "status": "success",
-  "results": [
-    { "title": "Cal.com MCP Spec v2", "url": "https://cal.com/docs" },
-    { "title": "Next.js 16 Registry", "url": "https://skill.base" }
-  ],
-  "latency": "148ms"
-}`}
-                    </code>
+              {/* Action Buttons Row */}
+              <div className="grid grid-cols-2 gap-3">
+                <Button
+                  onClick={handleCopy}
+                  variant="outline"
+                  className="h-10 gap-1.5 font-semibold text-ink border border-hairline hover:bg-surface-soft bg-canvas cursor-pointer active:translate-y-px transition-all"
+                >
+                  {copied ? (
+                    <>
+                      <Check className="size-3.5 text-emerald-600" />
+                      Copied!
+                    </>
                   ) : (
-                    <code className="block whitespace-pre text-muted-soft">
-                      {`{
-  "status": "idle",
-  "instructions": "Click Run Agent Skill above to simulate tool execution."
-}`}
-                    </code>
+                    <>
+                      <Copy className="size-3.5" />
+                      Copy File
+                    </>
                   )}
-                </div>
+                </Button>
+                <Button
+                  onClick={handleDownload}
+                  className="h-10 gap-1.5 font-semibold text-primary-foreground bg-primary hover:bg-primary-active cursor-pointer active:translate-y-px transition-all"
+                >
+                  <Download className="size-3.5" />
+                  Download
+                </Button>
               </div>
 
             </div>

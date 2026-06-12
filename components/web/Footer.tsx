@@ -1,8 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { Cpu, Globe } from "lucide-react";
+import { Globe } from "lucide-react";
 import { GithubIcon, TwitterIcon, SlackIcon } from "../icons/brandIcons";
+import { Button } from "@/components/ui/button";
 
 export function Footer() {
   return (
@@ -103,12 +104,13 @@ export function Footer() {
                   placeholder="name@domain.com"
                   className="w-full min-w-0 rounded-md border border-hairline/20 bg-surface-dark-elevated px-3 py-2 text-xs text-white placeholder:text-muted-soft outline-none focus:border-white/40 focus:ring-1 focus:ring-white/20 transition-all"
                 />
-                <button
+                <Button
                   type="submit"
-                  className="h-9 inline-flex items-center justify-center rounded-md bg-white px-4 text-xs font-semibold text-surface-dark hover:bg-white/90 active:translate-y-px transition-colors duration-200 cursor-pointer"
+                  variant="secondary"
+                  className="h-9 font-semibold text-surface-dark bg-white hover:bg-white/90 active:translate-y-px transition-colors duration-200 cursor-pointer"
                 >
                   Join
-                </button>
+                </Button>
               </form>
             </div>
 
