@@ -37,26 +37,11 @@ export function Navbar() {
             href="/explore"
             className="hover:text-ink transition-colors duration-200"
           >
-            Explore
+            Explore skills
           </Link>
-          <Link
-            href="/docs"
-            className="hover:text-ink transition-colors duration-200"
-          >
-            Docs
-          </Link>
-          <Link
-            href="/integrations"
-            className="hover:text-ink transition-colors duration-200"
-          >
-            Integrations
-          </Link>
-          <Link
-            href="/pricing"
-            className="hover:text-ink transition-colors duration-200"
-          >
-            Pricing
-          </Link>
+          
+         
+      
         </div>
 
         {/* Right: Desktop Actions */}
@@ -151,27 +136,9 @@ export function Navbar() {
             >
               Explore Skills
             </Link>
-            <Link
-              href="/docs"
-              onClick={() => setIsOpen(false)}
-              className="block rounded-md px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-surface-soft hover:text-ink transition-colors"
-            >
-              Docs
-            </Link>
-            <Link
-              href="/integrations"
-              onClick={() => setIsOpen(false)}
-              className="block rounded-md px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-surface-soft hover:text-ink transition-colors"
-            >
-              Integrations
-            </Link>
-            <Link
-              href="/pricing"
-              onClick={() => setIsOpen(false)}
-              className="block rounded-md px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-surface-soft hover:text-ink transition-colors"
-            >
-              Pricing
-            </Link>
+            
+           
+          
           </div>
           <hr className="border-hairline" />
           <div className="flex flex-col gap-2.5 pt-1">
