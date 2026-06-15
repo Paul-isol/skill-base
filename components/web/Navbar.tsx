@@ -101,6 +101,11 @@ export function Navbar() {
                   <p className="text-xs text-muted-foreground leading-none">{session.user.email}</p>
                 </div>
                 <DropdownMenuSeparator />
+                <DropdownMenuItem asChild className="cursor-pointer py-2">
+                  <Link href="/profile">
+                    Profile
+                  </Link>
+                </DropdownMenuItem>
                 <DropdownMenuItem
                   onClick={async () => {
                     await authClient.signOut();
@@ -187,6 +192,14 @@ export function Navbar() {
                     <span className="text-xs text-muted-foreground truncate leading-tight">{session.user.email}</span>
                   </div>
                 </div>
+                <Link href="/profile" onClick={() => setIsOpen(false)} className="w-full block">
+                  <Button
+                    variant="outline"
+                    className="w-full h-10 font-semibold cursor-pointer justify-center border border-hairline hover:bg-surface-soft text-ink bg-canvas"
+                  >
+                    My Profile & Skills
+                  </Button>
+                </Link>
                 <Button
                   variant="destructive"
                   onClick={async () => {

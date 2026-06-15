@@ -1,6 +1,5 @@
 import * as React from "react";
 import Link from "next/link";
-import { Toaster } from "@/components/ui/sonner";
 
 export default function AuthLayout({
   children,
@@ -51,7 +50,6 @@ export default function AuthLayout({
       {/* Right Column: Actual Form Container */}
       <div className="lg:col-span-7 flex flex-col justify-center px-4 py-12 sm:px-6 lg:px-20 xl:px-24 bg-canvas">
         <div className="mx-auto w-full max-w-sm">
-          <Toaster position="top-right"/>
           {children}
         </div>
       </div>

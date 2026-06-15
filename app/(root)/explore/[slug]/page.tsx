@@ -175,7 +175,7 @@ async function SkillDetailContent({
 
         {/* Action buttons wrapper */}
         <div className="pt-2">
-          <SkillDetailActions markdownContent={skill.markdownContent} filename={filename} />
+          <SkillDetailActions markdownContent={skill.markdownContent} filename={filename} slug={skill.slug} />
         </div>
       </div>
 

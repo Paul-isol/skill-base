@@ -4,13 +4,15 @@ import * as React from "react";
 import { Download, Copy, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
+import { incrementDownloadCountAction } from "@/lib/skills/actions";
 
 interface SkillDetailActionsProps {
   markdownContent: string;
   filename: string;
+  slug: string;
 }
 
-export function SkillDetailActions({ markdownContent, filename }: SkillDetailActionsProps) {
+export function SkillDetailActions({ markdownContent, filename, slug }: SkillDetailActionsProps) {
   const [copied, setCopied] = React.useState(false);
 
   const handleCopy = async () => {
@@ -24,7 +26,7 @@ export function SkillDetailActions({ markdownContent, filename }: SkillDetailAct
     }
   };
 
-  const handleDownload = () => {
+  const handleDownload = async () => {
     try {
       const blob = new Blob([markdownContent], { type: "text/markdown" });
       const url = URL.createObjectURL(blob);
@@ -34,6 +36,9 @@ export function SkillDetailActions({ markdownContent, filename }: SkillDetailAct
       a.click();
       URL.revokeObjectURL(url);
       toast.success(`Downloaded ${filename} successfully!`);
+
+      // Trigger background update for download count in database
+      await incrementDownloadCountAction(slug);
     } catch (err) {
       toast.error("Failed to download file");
     }

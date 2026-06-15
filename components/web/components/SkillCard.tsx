@@ -3,6 +3,7 @@
 import * as React from "react";
 import { Download, Copy, Check } from "lucide-react";
 import { toast } from "sonner";
+import { incrementDownloadCountAction } from "@/lib/skills/actions";
 
 interface SkillCardProps {
   name: string;
@@ -26,6 +27,11 @@ export function SkillCard({
   authorId,
 }: SkillCardProps) {
   const [copied, setCopied] = React.useState(false);
+  const [downloadsCount, setDownloadsCount] = React.useState(downloads);
+
+  React.useEffect(() => {
+    setDownloadsCount(downloads);
+  }, [downloads]);
 
   const filename = `${slug.replace(/-/g, "_")}.md`;
   const authorDisplayName = authorName || "Anonymous";
@@ -99,7 +105,7 @@ export function SkillCard({
     }
   };
 
-  const handleDownload = () => {
+  const handleDownload = async () => {
     try {
       const blob = new Blob([markdownContent], { type: "text/markdown" });
       const url = URL.createObjectURL(blob);
@@ -109,6 +115,11 @@ export function SkillCard({
       a.click();
       URL.revokeObjectURL(url);
       toast.success(`Downloaded ${filename} successfully!`);
+
+      // Optimistically increment local downloads count
+      setDownloadsCount((prev) => prev + 1);
+      // Increment database download metrics
+      await incrementDownloadCountAction(slug);
     } catch (err) {
       toast.error("Failed to download file");
     }
@@ -124,7 +135,7 @@ export function SkillCard({
           </span>
           <div className="flex items-center gap-1.5 text-xs text-muted-soft font-medium">
             <Download className="size-3.5" />
-            <span>{formatDownloads(downloads)}</span>
+            <span>{formatDownloads(downloadsCount)}</span>
           </div>
         </div>
 
