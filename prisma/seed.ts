@@ -12,13 +12,14 @@ async function main() {
 
     const sampleData = [
       {
-        id: "calendar-booking",
         name: "Calendar Booking Prompt",
+        slug: "calendar-booking",
         description:
           "Instructs agents to inspect schedules, query availability, and book meetings.",
-        category: "Scheduling",
+        category: "backend",
         downloads: 14200,
         authorId: "cal-core",
+        authorName: "Calendar Core",
         markdownContent: `# Calendar Booking System Prompt
 
 ## Role & Persona
@@ -44,13 +45,14 @@ You are the calendar management assistant. Your task is to inspect user calendar
 \`\`\``,
       },
       {
-        id: "web-search",
         name: "Web Search Crawler Prompt",
+        slug:"web-search",
         description:
           "Instructs agents on how to construct secure queries, extract indices, and crawl search pages.",
-        category: "Services",
+        category: "frontend",
         downloads: 21500,
         authorId: "indexers-corp",
+        authorName: "Indexers Corp",
         markdownContent: `# Web Search Executor Prompt
 
 ## Role & Mission
@@ -69,13 +71,14 @@ You are a research crawler agent. Your purpose is to formulate queries, dispatch
 - Do not crawl payment-wall directories or robots.txt restricted directories.`,
       },
       {
-        id: "sql-runner",
+        slug: "sql-runner",
         name: "SQL Runner Prompt",
         description:
           "Configures agents to execute secure read-only SQL queries and structure data schema tables.",
-        category: "Database",
+        category: "backend",
         downloads: 17100,
         authorId: "prisma-org",
+        authorName: "Prisma Org",
         markdownContent: `# SQL Database Executor Prompt
 
 ## Objective
@@ -92,13 +95,14 @@ SELECT id, name, status FROM agents LIMIT 2;
 \`\`\``,
       },
       {
-        id: "email-dispatcher",
+        slug: "email-dispatcher",
         name: "Gmail Dispatch Prompt",
         description:
           "Instructs agents to authenticate, construct SMTP notification drafts, and send alerts.",
-        category: "Integrations",
+        category: "frontend",
         downloads: 11400,
         authorId: "google-inc",
+        authorName: "Google Inc",
         markdownContent: `# SMTP Email Dispatcher Prompt
 
 ## Purpose
@@ -119,13 +123,14 @@ Body:
 \`\`\``,
       },
       {
-        id: "chart-explorer",
+        slug: "chart-explorer",
         name: "Chart Data Explorer Prompt",
         description:
           "Prompts agents to parse array coordinates and structure clean metrics visualizations.",
-        category: "Analytics",
+        category: "frontend",
         downloads: 8900,
         authorId: "pixel-labs",
+        authorName: "Pixel Labs",
         markdownContent: `# Chart Visualizer System Prompt
 
 ## Objective
@@ -147,13 +152,14 @@ Convert raw lists of coordinates and numbers into structured JSON parameters com
   \`\`\``,
       },
       {
-        id: "markdown-formatter",
+        slug: "markdown-formatter",
         name: "Markdown Previewer Prompt",
         description:
           "Instructs agents to transcribe transcripts into clean, formatted markdown checklists.",
-        category: "Workspace",
+        category: "frontend",
         downloads: 6100,
         authorId: "agentic-labs",
+        authorName: "Agentic Labs",
         markdownContent: `# Markdown Preview Editor System Prompt
 
 ## Objective
@@ -172,13 +178,14 @@ Act as an inline document workspace compiler. Convert conversational task notes 
 \`\`\``,
       },
       {
-        id: "vector-indexer",
+        slug: "vector-indexer",
         name: "Vector Embeddings Prompt",
         description:
           "Configures agents to index textual documents, generate embeddings, and search vector spaces.",
-        category: "Services",
+        category: "backend",
         downloads: 9400,
         authorId: "pinecone-dev",
+        authorName: "Pinecone Dev",
         markdownContent: `# Vector Indexer Prompt
 
 ## Objective
@@ -190,13 +197,14 @@ Extract chunks from raw text, query OpenAI embedding models, and register embedd
 - Output matches sorted by confidence score.`,
       },
       {
-        id: "pdf-parser",
+        slug: "pdf-parser",
         name: "PDF Summarization Prompt",
         description:
           "Instructs agents to parse PDF structures, extract textual tokens, and compile TL;DR reports.",
-        category: "Workspace",
+        category: "frontend",
         downloads: 13200,
         authorId: "adobe-developer",
+        authorName: "Adobe Developer",
         markdownContent: `# PDF Summarizer Prompt
 
 ## Role
@@ -208,13 +216,14 @@ You are a document compiler. Extract headings, main points, and lists from PDF f
 - Censure personal identification information (PII) like names or phone numbers.`,
       },
       {
-        id: "slack-dispatcher",
+        slug: "slack-dispatcher",
         name: "Slack Dispatcher Prompt",
         description:
           "Instructs agents to format chat payloads, select Slack channels, and post messages.",
-        category: "Integrations",
+        category: "frontend",
         downloads: 7300,
         authorId: "slack-dev",
+        authorName: "Slack Dev",
         markdownContent: `# Slack Notification Dispatcher Prompt
 
 ## Objective
@@ -226,13 +235,14 @@ Structure and send chat notifications to Slack webhook channels.
 - Include code snippets inside single backticks.`,
       },
       {
-        id: "openapi-runner",
+        slug: "openapi-runner",
         name: "OpenAPI Schema Prompt",
         description:
           "Configures agents to inspect swagger/OpenAPI schemas and execute valid API requests.",
-        category: "Database",
+        category: "backend",
         downloads: 10500,
         authorId: "swagger-team",
+        authorName: "Swagger Team",
         markdownContent: `# OpenAPI Client Prompt
 
 ## Role
@@ -246,7 +256,7 @@ You are an API calling connector. Inspect standard swagger.json or openapi.yaml 
     ];
 
     await prisma.skill.createMany({
-      data: sampleData,
+      data: sampleData
     });
 
     console.log("Seeding completed successfully with 10 skills.");

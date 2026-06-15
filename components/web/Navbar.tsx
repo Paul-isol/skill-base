@@ -62,7 +62,7 @@ export function Navbar() {
         {/* Right: Desktop Actions */}
         <div className="hidden md:flex items-center gap-5">
           <a
-            href="https://github.com"
+            href="https://github.com/Paul-isol/skill-base"
             target="_blank"
             rel="noopener noreferrer"
             className="p-1.5 text-muted-foreground hover:text-ink transition-colors"

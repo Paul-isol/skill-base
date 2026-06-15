@@ -1,44 +1,92 @@
+"use client";
+
 import * as React from "react";
 import { Download, Copy, Check } from "lucide-react";
 import { toast } from "sonner";
 
 interface SkillCardProps {
-  title: string;
-  filename: string;
+  name: string;
+  slug: string;
   description: string;
   category: string;
-  downloads: string;
+  downloads: number;
   markdownContent: string;
-  author: {
-    name: string;
-    avatarBg: string;
-  };
-  badge?: {
-    text: string;
-    bgClass: string;
-    textClass: string;
-  };
+  authorName?: string | null;
+  authorId?: string | null;
 }
 
 export function SkillCard({
-  title,
-  filename,
+  name,
+  slug,
   description,
   category,
   downloads,
   markdownContent,
-  author,
-  badge,
+  authorName,
+  authorId,
 }: SkillCardProps) {
   const [copied, setCopied] = React.useState(false);
 
+  const filename = `${slug.replace(/-/g, "_")}.md`;
+  const authorDisplayName = authorName || "Anonymous";
+
   // Get initials from author name
-  const initials = author.name
+  const initials = authorDisplayName
     .split(" ")
     .map((n) => n[0])
     .join("")
     .slice(0, 2)
     .toUpperCase();
+
+  // Format downloads count
+  const formatDownloads = (num: number) => {
+    if (num >= 1000) {
+      return (num / 1000).toFixed(1).replace(/\.0$/, "") + "k";
+    }
+    return num.toString();
+  };
+
+  // Stable avatar background selection
+  const getAvatarBg = (nameText: string) => {
+    const bgs = [
+      "bg-amber-100",
+      "bg-blue-100",
+      "bg-purple-100",
+      "bg-emerald-100",
+      "bg-pink-100",
+      "bg-orange-100",
+    ];
+    let hash = 0;
+    for (let i = 0; i < nameText.length; i++) {
+      hash = nameText.charCodeAt(i) + ((hash << 5) - hash);
+    }
+    const index = Math.abs(hash) % bgs.length;
+    return bgs[index];
+  };
+
+  const avatarBg = getAvatarBg(authorDisplayName);
+
+  // Compute dynamic badge based on downloads count
+  let badge: { text: string; bgClass: string; textClass: string } | null = null;
+  if (downloads >= 20000) {
+    badge = {
+      text: "Popular",
+      bgClass: "bg-blue-50 border border-blue-200/40",
+      textClass: "text-blue-700",
+    };
+  } else if (downloads >= 15000) {
+    badge = {
+      text: "Verified",
+      bgClass: "bg-purple-50 border border-purple-200/40",
+      textClass: "text-purple-700",
+    };
+  } else if (downloads >= 10000) {
+    badge = {
+      text: "Official",
+      bgClass: "bg-amber-50 border border-amber-200/40",
+      textClass: "text-amber-700",
+    };
+  }
 
   const handleCopy = async () => {
     try {
@@ -76,14 +124,14 @@ export function SkillCard({
           </span>
           <div className="flex items-center gap-1.5 text-xs text-muted-soft font-medium">
             <Download className="size-3.5" />
-            <span>{downloads}</span>
+            <span>{formatDownloads(downloads)}</span>
           </div>
         </div>
 
         {/* Title and Badge */}
         <div className="flex items-start gap-2.5 mb-1.5">
           <h3 className="font-sans text-xl font-bold tracking-cal-sans-sm text-ink group-hover:text-primary transition-colors">
-            {title}
+            {name}
           </h3>
           {badge && (
             <span
@@ -120,12 +168,12 @@ export function SkillCard({
         {/* Author */}
         <div className="flex items-center gap-2">
           <div
-            className={`size-7 rounded-full flex items-center justify-center text-[10px] font-bold text-ink select-none border border-hairline ${author.avatarBg}`}
+            className={`size-7 rounded-full flex items-center justify-center text-[10px] font-bold text-ink select-none border border-hairline ${avatarBg}`}
           >
             {initials}
           </div>
           <span className="text-xs font-medium text-ink truncate max-w-[80px] sm:max-w-none">
-            {author.name}
+            {authorDisplayName}
           </span>
         </div>
 
@@ -142,7 +190,7 @@ export function SkillCard({
               <Copy className="size-3.5" />
             )}
           </button>
-          
+
           <button
             onClick={handleDownload}
             className="h-8 px-3 text-xs font-semibold border border-hairline rounded-md bg-canvas hover:bg-surface-soft text-ink flex items-center gap-1.5 cursor-pointer transition-colors active:translate-y-px"
